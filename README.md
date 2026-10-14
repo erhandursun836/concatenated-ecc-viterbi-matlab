@@ -40,21 +40,15 @@ In the concatenated configuration, data passes through two layers of protection 
 
 ---
 
-##  How to Run
-
-1. Clone this repository and open the folder in **MATLAB**.
-2. **To run a quick diagnostic test:**
-   ```matlab
-   driver_script
-
-
 ## Key Results & Performance Analysis
 
 ### Summary of Findings
-* Low-to-Moderate Noise (BER = 0.001 to 0.05): Both the Convolutional-only and Concatenated systems achieve 0% Output BER (Perfect Decoding) across all tested noise seeds, whereas the standalone Hamming (7,4) code begins failing whenever 2 or more bit flips occur within the same 7-bit block.
-* High Noise (BER = 0.10 to 0.15): When channel noise exceeds the free distance bound ($d_{\text{free}} = 6$) of the inner convolutional code, the Viterbi decoder occasionally selects an incorrect survivor path, outputting localized burst errors.
-* Concatenated Advantage: The Concatenated architecture achieves the lowest overall Bit Error Rate across the sweep. The inner Viterbi decoder filters out the heavy raw channel noise, while the outer Hamming (7,4) decoder acts as a secondary safety net to clean up isolated residual errors.
+* Low-to-Moderate Noise (BER = 0.001 to 0.05): Both the Convolutional-only and Concatenated systems achieve 0% Output BER (Perfect Decoding) at 0.001 and 0.01 BER across all tested seeds, while the standalone Hamming (7,4) code begins failing early whenever 2 or more bit flips land inside the same 7-bit block
+* The Viterbi Breakdown Threshold (BER = 0.10 to 0.15): When channel noise becomes severe and exceeds the free distance bound ($d_{\text{free}} = 6$) of the convolutional code, the Viterbi decoder diverges onto incorrect survivor paths. This causes localized burst errors, pushing the Convolutional and Concatenated error rates higher than standalone Hamming at extreme noise levels.
+* Concatenated Advantage: Even during severe noise (BER = 0.15), the Concatenated system consistently outperforms the standalone Convolutional code (~24% vs. ~30% Output BER) because the outer Hamming (7,4) decoder successfully catches and repairs isolated single-bit errors left behind by the Viterbi decoder.
 
 <img width="560" height="420" alt="ber_results" src="https://github.com/user-attachments/assets/03fa3797-911b-41f2-bc7a-e1d3fb9ad567" />
+
+---
 
   Author: Erhan Dursun
